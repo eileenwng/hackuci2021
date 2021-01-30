@@ -1,0 +1,11 @@
+{
+  "name": "PApp",
+  "description" : "Eileen and Daniel try to make a Chrome extension in 12hrs.",
+  "version": "1.0",
+  "manifest_version": 2,
+
+  "content_scripts": [{
+    "js": ["content.js"],
+    "matches": ["http://*/*", "https://*/*"]
+  }]
+}
