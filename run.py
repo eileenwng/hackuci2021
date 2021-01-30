@@ -38,7 +38,7 @@ def sms():
 
     try:
         if message_content == 'COMMANDS':
-            resp_message = 'TODO: display list of pending tasks\n' + 'COMPLETED: display list of completed tasks\n' + 'Task Commands:\n' + 'Add Task: add [task name] [time interval]' + '\n' + 'Cancel Task: cancel [task name]' + '\n' + 'Complete Task: complete [task name]'
+            resp_message = 'TODO: display list of pending tasks\n' + 'COMPLETED: display list of completed tasks\n' + 'Task Commands:\n' + 'Add task: add [task name] [time interval]' + '\n' + 'Cancel task: cancel [task name]' + '\n' + 'Complete task: complete [task name]'
         
         elif message_content == 'TODO':
             # query firestore and return pending tasks
@@ -54,12 +54,12 @@ def sms():
             else:
                 resp_message = 'pending tasks:\n'
                 for task in pending_tasks:
-                    resp_message += f'{pending_tasks[0]}: {pending_tasks[1]}\n'
+                    resp_message += f'{task[0]}: {task[1]}\n'
                 resp_message += 'keep at it!'
         
         elif message_content == 'COMPLETED':
             # query firestore and return completed tasks
-            pending_tasks = []
+            completed_tasks = []
             docs = db.collection('completed').stream()
 
             for doc in docs:
@@ -67,11 +67,11 @@ def sms():
                 pending_tasks.append((doc_dict['name'], doc_dict['interval']))
 
             if len(pending_tasks) == 0:
-                resp_message = 'no completed tasks!'
+                resp_message = 'no completed tasks'
             else:
                 resp_message = 'completed tasks:\n'
-                for task in pending_tasks:
-                    resp_message += f'{pending_tasks[0]}: {pending_tasks[1]}\n'
+                for task in completed_tasks:
+                    resp_message += f'{task[0]}: {task[1]}\n'
                 resp_message += 'good work!'
 
         elif message_content.startswith('Add task:'):
