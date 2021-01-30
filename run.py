@@ -66,7 +66,7 @@ def sms():
                 doc_dict = doc.to_dict()
                 pending_tasks.append((doc_dict['name'], doc_dict['interval']))
 
-            if len(pending_tasks) == 0:
+            if len(completed_tasks) == 0:
                 resp_message = 'no completed tasks'
             else:
                 resp_message = 'completed tasks:\n'
@@ -91,7 +91,7 @@ def sms():
                 if doc_dict['name'] == task_name:
                     db.collection('pending').document(doc.id).delete()
             
-            resp_message = f'successfully deleted task: {task_name}'
+            resp_message = f'successfully canceled task: {task_name}'
         
         elif message_content.startswith('Complete task:'):
             task_name = message_content.split(': ')[1]
