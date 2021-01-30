@@ -23,7 +23,7 @@ db = firestore.client()
 def sms():
     print('in sms view')
     # receive message contents
-    message_content = request.values.get('Body').lower()
+    message_content = request.values.get('Body')
 
     # maybe update database
 
