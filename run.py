@@ -21,6 +21,7 @@ db = firestore.client()
 
 @app.route("/", methods=['GET', 'POST'])
 def sms():
+    print('in sms view')
     # receive message contents
     message_content = request.values.get('Body').lower()
 
@@ -32,7 +33,9 @@ def sms():
 
     if message_content == 'HELP':
         resp_message = 'TODO: display list of pending tasks\n' + 'COMPLETED: display list of completed tasks\n' + 'Task Commands:\n' + 'Add Task: add [task name] [time interval]' + '\n' + 'Cancel Task: cancel [task name]' + '\n' + 'Complete Task: complete [task name]'
-
+        resp.message(resp_message)
+    else:
+        resp.message('Unknown command: text HELP for list of commands')
 
     return str(resp)
 
