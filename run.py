@@ -64,7 +64,7 @@ def sms():
 
             for doc in docs:
                 doc_dict = doc.to_dict()
-                pending_tasks.append((doc_dict['name'], doc_dict['interval']))
+                completed_tasks.append((doc_dict['name'], doc_dict['interval']))
 
             if len(completed_tasks) == 0:
                 resp_message = 'no completed tasks'
