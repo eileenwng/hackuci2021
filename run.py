@@ -31,12 +31,91 @@ def sms():
     # reply to message
     resp = MessagingResponse()
 
-    if message_content == 'COMMANDS':
-        resp_message = 'TODO: display list of pending tasks\n' + 'COMPLETED: display list of completed tasks\n' + 'Task Commands:\n' + 'Add Task: add [task name] [time interval]' + '\n' + 'Cancel Task: cancel [task name]' + '\n' + 'Complete Task: complete [task name]'
-        resp.message(resp_message)
-    else:
-        resp.message('Unknown command: text \'COMMANDS\' for list of commands')
+    # task_format = {
+    #     'name': str,
+    #     'interval': str
+    # }
 
+    try:
+        if message_content == 'COMMANDS':
+            resp_message = 'TODO: display list of pending tasks\n' + 'COMPLETED: display list of completed tasks\n' + 'Task Commands:\n' + 'Add Task: add [task name] [time interval]' + '\n' + 'Cancel Task: cancel [task name]' + '\n' + 'Complete Task: complete [task name]'
+        
+        elif message_content == 'TODO':
+            # query firestore and return pending tasks
+            pending_tasks = []
+            docs = db.collection('pending').stream()
+
+            for doc in docs:
+                doc_dict = doc.to_dict()
+                pending_tasks.append((doc_dict['name'], doc_dict['interval']))
+
+            if len(pending_tasks) == 0:
+                resp_message = 'no pending tasks!'
+            else:
+                resp_message = 'pending tasks:\n'
+                for task in pending_tasks:
+                    resp_message += f'{pending_tasks[0]}: {pending_tasks[1]}\n'
+                resp_message += 'keep at it!'
+        
+        elif message_content == 'COMPLETED':
+            # query firestore and return completed tasks
+            pending_tasks = []
+            docs = db.collection('completed').stream()
+
+            for doc in docs:
+                doc_dict = doc.to_dict()
+                pending_tasks.append((doc_dict['name'], doc_dict['interval']))
+
+            if len(pending_tasks) == 0:
+                resp_message = 'no completed tasks!'
+            else:
+                resp_message = 'completed tasks:\n'
+                for task in pending_tasks:
+                    resp_message += f'{pending_tasks[0]}: {pending_tasks[1]}\n'
+                resp_message += 'good work!'
+
+        elif message_content.startswith('Add task:'):
+            task = message_content.split(': ')[1].split(' ')
+            db.collection('pending').document().set({
+                'name': task[0],
+                'interval': task[1]
+            })
+            resp_message = f'successfully added task: {task[0]} for {task[1]}'
+
+        elif message_content.startswith('Cancel task:'):
+            task_name = message_content.split(': ')[1]
+            docs = db.collection('pending').stream()
+
+            for doc in docs:
+                doc_dict = doc.to_dict()
+                if doc_dict['name'] == task_name:
+                    db.collection('pending').document(doc.id).delete()
+            
+            resp_message = f'successfully deleted task: {task_name}'
+        
+        elif message_content.startswith('Complete task:'):
+            task_name = message_content.split(': ')[1]
+            docs = db.collection('pending').stream()
+
+            for doc in docs:
+                doc_dict = doc.to_dict()
+                if doc_dict['name'] == task_name:
+                    db.collection('completed').document().set({
+                        'name': doc_dict['name'],
+                        'interval': doc_dict['interval']
+                    })
+                    db.collection('pending').document(doc.id).delete()
+            
+            resp_message = f'successfully completed task: {task_name}'
+
+        else:
+            resp_message = 'Unknown command: text \'COMMANDS\' for list of commands and syntax'
+
+    except:
+        resp_message = 'Something went wrong. Probably a syntax error. Check carefully for spacing and try again.'
+
+
+    resp.message(resp_message)
     return str(resp)
 
 if __name__ == "__main__":
