@@ -31,11 +31,11 @@ def sms():
     # reply to message
     resp = MessagingResponse()
 
-    if message_content == 'HELP':
+    if message_content == 'COMMANDS':
         resp_message = 'TODO: display list of pending tasks\n' + 'COMPLETED: display list of completed tasks\n' + 'Task Commands:\n' + 'Add Task: add [task name] [time interval]' + '\n' + 'Cancel Task: cancel [task name]' + '\n' + 'Complete Task: complete [task name]'
         resp.message(resp_message)
     else:
-        resp.message('Unknown command: text HELP for list of commands')
+        resp.message('Unknown command: text \'COMMANDS\' for list of commands')
 
     return str(resp)
 
