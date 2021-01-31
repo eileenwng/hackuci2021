@@ -119,8 +119,15 @@ def sms():
     return str(resp)
 
 
-@app.route("/dashboard", methods=['GET'])
+@app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
+    if request.form:
+        db.collection('pending').document().set({
+            'name': request.form['name'],
+            'interval': request.form['interval']
+        })
+
+
     pending_tasks = []
     docs = db.collection('pending').stream()
 

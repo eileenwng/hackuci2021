@@ -19,6 +19,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <title>PApp</title>
     <h1 style="padding-left: 1%; padding-top: 1%;">Dashboard</h1>
+
+    <form action= "{{ url_for('dashboard') }}", method=POST style="padding-left: 1%;">
+        <div class="form-group">
+            <label for="name">Task Name</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter task name" name=name>
+            <label for="interval">Time Interval</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter blocked time interval" name=interval>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
     
     <div class="left">
         Your pending tasks:
