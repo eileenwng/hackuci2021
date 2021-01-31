@@ -118,5 +118,11 @@ def sms():
     resp.message(resp_message)
     return str(resp)
 
+
+@app.route("/dashboard", methods=['GET'])
+def dashboard():
+    return "This is the dashboard."
+
+
 if __name__ == "__main__":
     app.run()
