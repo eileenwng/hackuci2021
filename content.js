@@ -31,7 +31,7 @@ db.collection('pending').get().then((querySnapshot) => {
     querySnapshot.forEach((userDoc) => {
         if(current_time >= userDoc.data()['interval'].substr(0, 5) && current_time < userDoc.data()['interval'].substr(6, 11)) {
             blocking_task = true;
-            let blocked_sites = ["https://www.facebook.com/", "https://www.reddit.com/"];
+            let blocked_sites = ["https://www.facebook.com/", "https://www.reddit.com/", "https://www.youtube.com/", "https://twitter.com/", "https://www.instagram.com/", "https://tumblr.com/", "http://netflix.com/", "https://hulu.com/", "https://www.amazon.com/", "https://www.twitch.tv/"];
             let i;
             if(blocking_task) {
                 for(i = 0; i < blocked_sites.length; i++) {
