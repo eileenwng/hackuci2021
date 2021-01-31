@@ -127,9 +127,17 @@ def dashboard():
     for doc in docs:
         doc_dict = doc.to_dict()
         pending_tasks.append((doc_dict['name'], doc_dict['interval']))
+    
+    completed_tasks = []
+    docs = db.collection('completed').stream()
+
+    for doc in docs:
+        doc_dict = doc.to_dict()
+        completed_tasks.append((doc_dict['name'], doc_dict['interval']))
 
     pending_tasks.sort(key=lambda x:x[1])
-    return render_template('dashboard.html', pending_tasks=pending_tasks)
+    completed_tasks.sort(key=lambda x:x[1])
+    return render_template('dashboard.html', pending_tasks=pending_tasks, completed_tasks=completed_tasks)
 
 
 if __name__ == "__main__":
