@@ -1,6 +1,6 @@
 {
   "name": "GoalsUnblocked",
-  "description" : "Eileen and Daniel try to make a Chrome extension in 12hrs.",
+  "description" : "GoalsUnblocked encourages you to reach your goals. It allows you to set times to do tasks and restricts distracting websites until you complete them.",
   "version": "2.2",
   "manifest_version": 2,
 
