@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from twilio.twiml.messaging_response import MessagingResponse
 import firebase_admin
 from firebase_admin import credentials
@@ -121,7 +121,14 @@ def sms():
 
 @app.route("/dashboard", methods=['GET'])
 def dashboard():
-    return "This is the dashboard."
+    pending_tasks = []
+    docs = db.collection('pending').stream()
+
+    for doc in docs:
+        doc_dict = doc.to_dict()
+        pending_tasks.append((doc_dict['name'], doc_dict['interval']))
+
+    return render_template('dashboard.html', pending_tasks=pending_tasks)
 
 
 if __name__ == "__main__":
