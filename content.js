@@ -36,7 +36,8 @@ db.collection('pending').get().then((querySnapshot) => {
             if(blocking_task) {
                 for(i = 0; i < blocked_sites.length; i++) {
                     if(window.location.href.startsWith(blocked_sites[i])) {
-                        document.documentElement.innerHTML = "<title> Blocked Page </title> This page is blocked by PApp. To see your blocking tasks, go to website or text the number you've been assigned.";
+                        // document.documentElement.innerHTML = "<title> Blocked Page </title> This page is blocked by PApp. To see your blocking tasks, go to https://hackuci2021.herokuapp.com/dashboard or text the number you've been assigned.";
+                        window.location.replace("https://hackuci2021.herokuapp.com/dashboard")
                         break;
                     }
                 }
@@ -44,5 +45,3 @@ db.collection('pending').get().then((querySnapshot) => {
         }
     })
 })
-
-
