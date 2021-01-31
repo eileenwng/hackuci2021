@@ -1,7 +1,7 @@
 {
   "name": "PApp",
   "description" : "Eileen and Daniel try to make a Chrome extension in 12hrs.",
-  "version": "1.0",
+  "version": "2.2",
   "manifest_version": 2,
 
   "content_scripts": [{
