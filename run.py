@@ -128,6 +128,7 @@ def dashboard():
         doc_dict = doc.to_dict()
         pending_tasks.append((doc_dict['name'], doc_dict['interval']))
 
+    pending_tasks.sort(key=lambda x:x[1])
     return render_template('dashboard.html', pending_tasks=pending_tasks)
 
 
